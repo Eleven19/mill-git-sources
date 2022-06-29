@@ -9,15 +9,18 @@ import mill.define.Command
 import mill.eval.Evaluator
 import io.github.eleven19.mill.gitsource._
 import GitOps.GitCloneOptions
+import com.eed3si9n.expecty.Expecty.assert
 //val baseDir = build.millSourcePath
 
 def verify(ev:Evaluator): Command[Unit] =
   T.command {
-    val cloneOptions = gitSourceProject.getGitSources()
-    println(s"Clone Options: $cloneOptions")
+    val allGitSources1 = clonedProject.allGitSources()
+    val allGitSources2 = clonedProject.allGitSources()
+    assert(allGitSources1.nonEmpty)
+    assert(allGitSources1 == allGitSources2)
     ()
   }
 
-object gitSourceProject extends GitSourcesModule {
-  val gitSourcesRemoteUrl = "https://github.com/github/gitignore.git"
+object clonedProject extends GitSourcesModule {
+  val gitSourcesRemoteUrl = "https://github.com/eleven19/mill-git-sources.git"
 }
