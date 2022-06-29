@@ -50,6 +50,10 @@ val millItestVersions = crossDeps.flatMap(x => x.testWithMill.map(_ -> x))
 
 /** Shared configuration. */
 trait BaseModule extends CrossScalaModule with PublishModule with ScoverageModule {
+   def sonatypeUri: String = "https://s01.oss.sonatype.org/service/local"
+
+  def sonatypeSnapshotUri: String ="https://s01.oss.sonatype.org/content/repositories/snapshots"
+
   def millApiVersion: String
   def deps: Deps = millApiVersions.toMap.apply(millApiVersion)
   def crossScalaVersion = deps.scalaVersion
