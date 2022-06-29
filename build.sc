@@ -139,6 +139,7 @@ class ItestCross(millItestVersion: String) extends MillIntegrationTestModule {
     os.write(
       T.dest / "shared.sc",
       s"""import $$ivy.`${deps.scoverageRuntime.dep.module.organization.value}::${deps.scoverageRuntime.dep.module.name.value}:${deps.scoverageRuntime.dep.version}`
+         |import $$ivy.`com.eed3si9n.expecty::expecty:0.15.4`
          |""".stripMargin
     )
     PathRef(T.dest)

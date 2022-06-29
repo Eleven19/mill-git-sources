@@ -9,12 +9,15 @@ import mill.define.Command
 import mill.eval.Evaluator
 import io.github.eleven19.mill.gitsource._
 import GitOps.GitCloneOptions
+import com.eed3si9n.expecty.Expecty.assert
 //val baseDir = build.millSourcePath
 
 def verify(ev:Evaluator): Command[Unit] =
   T.command {
-    val allGitSources = clonedProject.allGitSources()
-    assert(allGitSources.nonEmpty)
+    val allGitSources1 = clonedProject.allGitSources()
+    val allGitSources2 = clonedProject.allGitSources()
+    assert(allGitSources1.nonEmpty)
+    assert(allGitSources1 == allGitSources2)
     ()
   }
 
