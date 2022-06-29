@@ -1,2 +1,7 @@
-*.class
-*.log
+.bloop/
+.coursier/
+.idea/
+.idea_modules/
+.metals/
+.vscode/
+out/
