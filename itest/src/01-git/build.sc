@@ -6,12 +6,18 @@ import $exec.shared
 
 import mill._
 import mill.define.Command
-
+import mill.eval.Evaluator
+import io.github.eleven19.mill.gitsource._
+import GitOps.GitCloneOptions
 //val baseDir = build.millSourcePath
 
-def verify(): Command[Unit] =
+def verify(ev:Evaluator): Command[Unit] =
   T.command {
+    val cloneOptions = gitSourceProject.getGitSources()
+    println(s"Clone Options: $cloneOptions")
     ()
   }
 
-object gitSourceProject extends GitSourceModule {}
+object gitSourceProject extends GitSourcesModule {
+  val gitSourcesRemoteUrl = "https://github.com/github/gitignore.git"
+}
