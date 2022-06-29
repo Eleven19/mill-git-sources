@@ -68,9 +68,9 @@ trait BaseModule extends CrossScalaModule with PublishModule with ScoverageModul
     PomSettings(
       description = "Mill plugin to derive a version from (last) git tag and edit state",
       organization = "io.github.eleven19",
-      url = "https://github.com/eleven19/mill-git-source",
+      url = "https://github.com/eleven19/mill-git-sources",
       licenses = Seq(License.`Apache-2.0`),
-      versionControl = VersionControl.github("eleven19", "mill-git-source"),
+      versionControl = VersionControl.github("eleven19", "mill-git-sources"),
       developers = Seq(Developer("DamianReeves", "Damian Reeves", "https.//github.com/DamianReeves")),
     )
   }

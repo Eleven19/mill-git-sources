@@ -13,11 +13,11 @@ import GitOps.GitCloneOptions
 
 def verify(ev:Evaluator): Command[Unit] =
   T.command {
-    val cloneOptions = gitSourceProject.getGitSources()
-    println(s"Clone Options: $cloneOptions")
+    val allGitSources = clonedProject.allGitSources()
+    assert(allGitSources.nonEmpty)
     ()
   }
 
-object gitSourceProject extends GitSourcesModule {
-  val gitSourcesRemoteUrl = "https://github.com/github/gitignore.git"
+object clonedProject extends GitSourcesModule {
+  val gitSourcesRemoteUrl = "https://github.com/eleven19/mill-git-sources.git"
 }
