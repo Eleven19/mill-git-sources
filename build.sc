@@ -93,7 +93,7 @@ trait BaseModule extends CrossScalaModule with PublishModule with ScoverageModul
 object core extends Cross[CoreCross](millApiVersions.map(_._1): _*)
 class CoreCross(override val millApiVersion: String) extends BaseModule {
 
-  override def artifactName = "mill-git-source"
+  override def artifactName = "mill-git-sources"
 
   override def skipIdea: Boolean = deps != crossDeps.head
 
