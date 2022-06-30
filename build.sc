@@ -1,4 +1,3 @@
-
 // mill plugins
 import $ivy.`de.tototec::de.tobiasroeser.mill.vcs.version::0.1.4`
 // Run integration tests with mill
@@ -41,7 +40,8 @@ object Deps_0_9 extends Deps {
   override def millPlatform = "0.9"
   override def millVersion = "0.9.3" // scala-steward:off
   override def scalaVersion = "2.13.8"
-  override def testWithMill = Seq("0.9.12", "0.9.11", "0.9.10", "0.9.9", "0.9.8", "0.9.7", "0.9.6", "0.9.5", "0.9.4", millVersion)
+  override def testWithMill =
+    Seq("0.9.12", "0.9.11", "0.9.10", "0.9.9", "0.9.8", "0.9.7", "0.9.6", "0.9.5", "0.9.4", millVersion)
 }
 
 val crossDeps = Seq(Deps_0_10_0, Deps_0_9)
@@ -50,9 +50,9 @@ val millItestVersions = crossDeps.flatMap(x => x.testWithMill.map(_ -> x))
 
 /** Shared configuration. */
 trait BaseModule extends CrossScalaModule with PublishModule with ScoverageModule {
-   def sonatypeUri: String = "https://s01.oss.sonatype.org/service/local"
+  def sonatypeUri: String = "https://s01.oss.sonatype.org/service/local"
 
-  def sonatypeSnapshotUri: String ="https://s01.oss.sonatype.org/content/repositories/snapshots"
+  def sonatypeSnapshotUri: String = "https://s01.oss.sonatype.org/content/repositories/snapshots"
 
   def millApiVersion: String
   def deps: Deps = millApiVersions.toMap.apply(millApiVersion)
@@ -75,7 +75,7 @@ trait BaseModule extends CrossScalaModule with PublishModule with ScoverageModul
       url = "https://github.com/eleven19/mill-git-sources",
       licenses = Seq(License.`Apache-2.0`),
       versionControl = VersionControl.github("eleven19", "mill-git-sources"),
-      developers = Seq(Developer("DamianReeves", "Damian Reeves", "https.//github.com/DamianReeves")),
+      developers = Seq(Developer("DamianReeves", "Damian Reeves", "https.//github.com/DamianReeves"))
     )
   }
 
@@ -93,7 +93,7 @@ trait BaseModule extends CrossScalaModule with PublishModule with ScoverageModul
 object core extends Cross[CoreCross](millApiVersions.map(_._1): _*)
 class CoreCross(override val millApiVersion: String) extends BaseModule {
 
-  override def artifactName = "io.github.eleven19.mill-git-source"
+  override def artifactName = "mill-git-source"
 
   override def skipIdea: Boolean = deps != crossDeps.head
 
@@ -133,8 +133,8 @@ class ItestCross(millItestVersion: String) extends MillIntegrationTestModule {
     }
 
   override def testInvocations: Target[Seq[(PathRef, Seq[TestInvocation.Targets])]] = T {
-    super.testInvocations().map {
-      case (pr, _) => pr -> Seq(TestInvocation.Targets(Seq("-d", "verify")))
+    super.testInvocations().map { case (pr, _) =>
+      pr -> Seq(TestInvocation.Targets(Seq("-d", "verify")))
     }
   }
 

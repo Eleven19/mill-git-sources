@@ -24,6 +24,8 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java-version }}
+      - name: Cache scala dependencies
+        uses: coursier/cache-action@v6
 
       - run: ./mill -i __.publishLocal $(pwd)/testRepo
         if: matrix.os != 'windows-latest'
@@ -51,7 +53,7 @@ jobs:
 
   publish:
     needs: build
-    if: github.repository == 'eleven19/mill-git-sources' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && github.repository == 'eleven19/mill-git-sources'
     runs-on: ubuntu-latest
     concurrency: publish-{{ github.sha }}
 
@@ -62,6 +64,8 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 8
+      - name: Cache scala dependencies
+        uses: coursier/cache-action@v6
 
       - run: ./mill -i __.publishLocal $(pwd)/testRepo
         if: matrix.os != 'windows-latest'
@@ -76,4 +80,7 @@ jobs:
           gpg --list-secret-keys --keyid-format LONG
 
       - name: Publish to Maven Central
-        run: ./mill -i mill.scalalib.PublishModule/publishAll --sonatypeCreds "${{ secrets.SONATYPE_CREDS }}" --sonatypeUri "https://s01.oss.sonatype.org/service/local" --gpgArgs "--passphrase=${{ secrets.GPG_SECRET_KEY_PASS}},--batch,--yes,-a,-b,--pinentry-mode,loopback" --publishArtifacts __.publishArtifacts --readTimeout 600000 --awaitTimeout 600000 --release true --signed true
+        run: ./mill -i mill.scalalib.PublishModule/publishAll --sonatypeCreds "${{ SONATYPE_CREDS }}" --sonatypeUri "https://s01.oss.sonatype.org/service/local" --gpgArgs "--passphrase=${{ secrets.GPG_SECRET_KEY_PASS}},--batch,--yes,-a,-b,--pinentry-mode,loopback" --publishArtifacts __.publishArtifacts --readTimeout 600000 --awaitTimeout 600000 --release true --signed true
+        env:
+          SONATYPE_CREDS: "${{ secrets.SONATYPE_USERNAME }}:${{ secrets.SONATYPE_PASSWORD }}"
+          PGP_SECRET: "${{ secrets.GPG_SECRET_KEY }}"
